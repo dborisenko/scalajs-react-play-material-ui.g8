@@ -3,10 +3,10 @@ package controller
 import javax.inject.Singleton
 
 import model.Failure
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import play.api.http.HttpErrorHandler
 import play.api.mvc.Results._
-import play.api.mvc.{RequestHeader, Result}
+import play.api.mvc.{ RequestHeader, Result }
 
 import scala.concurrent.Future
 

@@ -1,12 +1,12 @@
 package model
 
-import java.time.{Clock, Instant}
+import java.time.{ Clock, Instant }
 import java.util.UUID
 
 import Todo.TodoId
 import io.circe.generic.JsonCodec
 import io.circe.java8.time._
-import io.circe.{Decoder, Encoder}
+import io.circe.{ Decoder, Encoder }
 import shapeless.tag
 import shapeless.tag.@@
 

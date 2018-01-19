@@ -1,18 +1,18 @@
 package controller
 
-import javax.inject.{Inject, Singleton}
+import javax.inject.{ Inject, Singleton }
 
 import model.Todo
 import model.Todo.TodoId
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.{ Logger, LoggerFactory }
 import play.api.libs.circe.Circe
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
+import play.api.mvc.{ AbstractController, Action, AnyContent, ControllerComponents }
 
 import scala.collection.concurrent.TrieMap
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 
 @Singleton
-class ApplicationController @Inject()(
+class ApplicationController @Inject() (
   cc: ControllerComponents
 )(implicit ec: ExecutionContext) extends AbstractController(cc) with Circe {
 

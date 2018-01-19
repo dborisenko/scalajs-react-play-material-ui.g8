@@ -1,5 +1,7 @@
 package module
 
+import javax.inject.Singleton
+
 import com.google.inject.AbstractModule
 import controller.ApplicationController
 import net.codingwell.scalaguice.ScalaModule
