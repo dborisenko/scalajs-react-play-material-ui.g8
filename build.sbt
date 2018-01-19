@@ -3,7 +3,7 @@
 // See http://www.foundweekends.org/giter8/testing.html#Using+the+Giter8Plugin for more details.
 lazy val root = (project in file(".")).
   settings(
-    name := "Scala.js, React and Material-UI client and Play server template",
+    name := "scalajs-react-play-material-ui",
     test in Test := {
       val _ = (g8Test in Test).toTask("").value
     },
