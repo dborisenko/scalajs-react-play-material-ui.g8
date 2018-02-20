@@ -9,7 +9,7 @@ The following technologies are used:
 * For front-end side (`client` module)
   * [Scala.js](https://www.scala-js.org/) v0.6.21
   * [scalajs-react](https://github.com/japgolly/scalajs-react) v1.1.1
-  * [scalajs-react-components](http://chandu0101.github.io/sjrc/)
+  * [scalajs-react-components](http://chandu0101.github.io/sjrc/) v0.8.0
   * [react](https://reactjs.org/) v15.6.1
   * [material-ui](http://www.material-ui.com/) v0.20.0
 * For back-end side (`server` module)
