@@ -6,7 +6,7 @@
 }
 
 @bundleProject(projectName: String) = @{
-    bundleUrl(projectName, name => Seq(s"$name-opt-bundle.js", s"$name-fastopt-bundle.js"))
+    bundleUrl(projectName, name => Seq(name + "-opt-bundle.js", name + "-fastopt-bundle.js"))
 }
 
 <html lang="en">
