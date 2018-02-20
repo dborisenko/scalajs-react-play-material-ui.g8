@@ -17,13 +17,13 @@ object TodoEditorComponent {
     close: Callback
   )
 
-  final class Backend($: BackendScope[Props, Unit]) {
+  final class Backend(scope: BackendScope[Props, Unit]) {
 
-    private val close: Callback = $.props.flatMap(_.close)
+    private val close: Callback = scope.props.flatMap(_.close)
 
-    private def submit(todo: Todo): Callback = $.props.flatMap(_.submit(todo))
+    private def submit(todo: Todo): Callback = scope.props.flatMap(_.submit(todo))
 
-    private def modState(f: Todo => Todo): Callback = $.props.flatMap(_.snapshot.modState(f))
+    private def modState(f: Todo => Todo): Callback = scope.props.flatMap(_.snapshot.modState(f))
 
     private def actions(todo: Todo): VdomNode = <.div(
       MuiFlatButton(key = "cancel", label = "Cancel", secondary = true, onClick = handleDialogCancel)(),

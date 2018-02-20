@@ -42,17 +42,17 @@ class ApplicationController @Inject() (
 
   def createOrUpdate: Action[Todo] = Action.async(circe.json[Todo]) { request =>
     val todo = request.body
-    logger.info(s"Got 'createOrUpdate' request for Todo $todo")
+    logger.info("Got 'createOrUpdate' request for Todo " + todo)
     Future(todoStorage.put(todo.id, todo)).map(_ => Ok(todo))
   }
 
   def delete(id: String): Action[AnyContent] = Action.async { _ =>
-    logger.info(s"Got 'delete' request for todo id $id")
+    logger.info("Got 'delete' request for todo id " + id)
     Future(todoStorage.remove(TodoId(id))).map(_ => Ok)
   }
 
   def list: Action[AnyContent] = Action.async { request =>
-    logger.info(s"Got 'list' request")
+    logger.info("Got 'list' request")
     Future(todoStorage.readOnlySnapshot().values).map(Ok(_))
   }
 }

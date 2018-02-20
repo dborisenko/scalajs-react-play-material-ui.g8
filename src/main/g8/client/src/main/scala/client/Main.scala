@@ -24,7 +24,7 @@ object MaterialUiSvgIcons extends js.Object
 @JSExportTopLevel("Main")
 object Main {
   GlobalStyles.addToDocument()
-  // This is needed to mount material-ui library into $g.mui JavaScript global variable ($g.mui = require("material-ui"))
+  // This is needed to mount material-ui library into `mui` JavaScript global variable (mui = require("material-ui"))
   js.Dynamic.global.mui = MaterialUi
   js.Dynamic.global.mui.Styles = MaterialUiStyles
   js.Dynamic.global.mui.SvgIcons = MaterialUiSvgIcons

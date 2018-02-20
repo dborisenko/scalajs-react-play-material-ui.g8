@@ -31,7 +31,7 @@ class ApplicationService {
   )).map(_.flatMap(parseOutput[Todo]))
 
   def delete(todoId: TodoId): Future[ErrorOr[Unit]] = raiseErrorFromFuture(Ajax.delete(
-    url = s"/api/todo/$todoId", headers = headers
+    url = "/api/todo/" + todoId, headers = headers
   )).map(_.map(_ => ()))
 
   def list(): Future[ErrorOr[List[Todo]]] = raiseErrorFromFuture(Ajax.get(

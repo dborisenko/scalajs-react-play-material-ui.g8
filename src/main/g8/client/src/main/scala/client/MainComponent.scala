@@ -49,13 +49,13 @@ object MainComponent {
     clock: Clock
   )
 
-  class Backend($: BackendScope[Props, Option[State]]) {
+  class Backend(scope: BackendScope[Props, Option[State]]) {
 
     //Its required to explicitly rethrow exception. ScalaJs-react will not do it by default(see Callback.future doc)
     private def cb[T](cbf: CallbackTo[Future[T]]): Callback = cbf.map(_.onComplete(_.fold[Unit](throw _, identity[T])))
 
-    private[MainComponent] val preLoad: Callback = cb($.props.flatMap(v => CallbackTo(v.loadList())).flatMap { future =>
-      CallbackTo.future(future.map(result => $.setState(Some(State(
+    private[MainComponent] val preLoad: Callback = cb(scope.props.flatMap(v => CallbackTo(v.loadList())).flatMap { future =>
+      CallbackTo.future(future.map(result => scope.setState(Some(State(
         todos = result.getOrElse(emptyTodoList),
         message = result.left.toOption.map(ErrorMessage).getOrElse(NoMessage)
       ))).map(Future.successful))).map(_.flatten)
@@ -63,9 +63,9 @@ object MainComponent {
 
     private def defaultHandler[T](successMessage: String): ErrorOr[List[Todo]] => CallbackTo[Unit] = {
       case Left(error) =>
-        $.modState(_.map(_.copy(message = ErrorMessage(error))))
+        scope.modState(_.map(_.copy(message = ErrorMessage(error))))
       case Right(result) =>
-        $.modState(_.map(_.copy(message = InfoMessage(successMessage), todos = result)))
+        scope.modState(_.map(_.copy(message = InfoMessage(successMessage), todos = result)))
     }
 
     private def wrapToListCall[T](loadList: () => Future[ErrorOr[List[Todo]]], successMessage: String)(func: => Future[ErrorOr[T]]): CallbackTo[Future[Unit]] =
@@ -75,10 +75,10 @@ object MainComponent {
       }.map(defaultHandler(successMessage)))
 
     private def deleteServiceCall(props: Props)(todoId: TodoId): CallbackTo[Future[Unit]] =
-      wrapToListCall(props.loadList, s"Deleted $todoId")(props.delete(todoId))
+      wrapToListCall(props.loadList, "Deleted " + todoId)(props.delete(todoId))
 
     private def createOrUpdateServiceCall(props: Props)(todo: Todo): CallbackTo[Future[Unit]] =
-      wrapToListCall(props.loadList, s"Created ${todo.id}")(props.createOrUpdate(todo))
+      wrapToListCall(props.loadList, "Created " + todo.id)(props.createOrUpdate(todo))
 
     private def renderSubComponent(snapshot: StateSnapshot[List[Todo]], props: Props): VdomElement =
       TodoListComponent(TodoListComponent.Props(
@@ -89,18 +89,18 @@ object MainComponent {
       ))
 
     def render(p: Props, s: Option[State]): VdomElement = {
-      val closeMessageBox: Callback = $.modState(_.map(_.copy(message = NoMessage)))
+      val closeMessageBox: Callback = scope.modState(_.map(_.copy(message = NoMessage)))
       MuiMuiThemeProvider()(
         s.fold[VdomElement](MuiLinearProgress(mode = DeterminateIndeterminate.indeterminate)()) { state =>
           <.div(
-            renderSubComponent(StateSnapshot(state.todos)(ns => $.modState(_.map(_.copy(todos = ns)))), p),
+            renderSubComponent(StateSnapshot(state.todos)(ns => scope.modState(_.map(_.copy(todos = ns)))), p),
             MuiSnackbar(
               autoHideDuration = 60000,
               message = state.message match {
                 case NoMessage => ""
                 case ErrorMessage(error) => <.div(
                   Mui.SvgIcons.ActionPanTool.apply(color = Mui.Styles.colors.redA700)(),
-                  s"Error: $error"
+                  "Error: " + error
                 )
                 case InfoMessage(info) => info
               },

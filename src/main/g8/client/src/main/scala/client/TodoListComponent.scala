@@ -24,7 +24,7 @@ object TodoListComponent {
     createOrUpdate: Option[Todo]
   )
 
-  final class Backend($: BackendScope[Props, State]) {
+  final class Backend(scope: BackendScope[Props, State]) {
 
     private val colNames = MuiTableRow()(
       MuiTableHeaderColumn()("ID"),
@@ -47,16 +47,13 @@ object TodoListComponent {
       )
     )
 
-    private def open(todo: Todo) = $.modState(_.copy(createOrUpdate = Some(todo)))
+    private def open(todo: Todo) = scope.modState(_.copy(createOrUpdate = Some(todo)))
 
-    private def handleDelete(todoId: TodoId): ReactEvent => Callback =
-      _ => $.props.flatMap(_.delete(todoId)) >> Callback.info(s"Deleted todo $todoId")
+    private def handleDelete(todoId: TodoId): ReactEvent => Callback = _ => scope.props.flatMap(_.delete(todoId))
 
-    private def openDialog(todo: Todo): ReactEvent => Callback =
-      _ => open(todo) >> Callback.info("Opened")
+    private def openDialog(todo: Todo): ReactEvent => Callback = _ => open(todo)
 
-    private def renderRows(todos: List[Todo]): List[VdomNode] =
-      todos.sortBy(_.createdAt).map(renderRow)
+    private def renderRows(todos: List[Todo]): List[VdomNode] = todos.sortBy(_.createdAt).map(renderRow)
 
     def render(p: Props, s: State): VdomElement = {
       <.div(
@@ -79,9 +76,9 @@ object TodoListComponent {
         ),
         MuiRaisedButton(label = "Create", onClick = openDialog(Todo.newTodo(p.clock)))(),
         s.createOrUpdate.fold[VdomElement](<.div())(todo => TodoEditorComponent(TodoEditorComponent.Props(
-          snapshot = StateSnapshot(todo)(s => $.modState(_.copy(createOrUpdate = Some(s)))),
-          submit = s => $.props.flatMap(_.createOrUpdate(s)),
-          close = $.modState(_.copy(createOrUpdate = None))
+          snapshot = StateSnapshot(todo)(s => scope.modState(_.copy(createOrUpdate = Some(s)))),
+          submit = s => scope.props.flatMap(_.createOrUpdate(s)),
+          close = scope.modState(_.copy(createOrUpdate = None))
         )))
       )
     }
