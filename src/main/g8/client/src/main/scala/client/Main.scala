@@ -2,6 +2,8 @@ package client
 
 import java.time.Clock
 
+import org.scalajs.dom
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.{ JSExportTopLevel, JSImport }
 import scalacss.ProdDefaults._
@@ -35,5 +37,5 @@ object Main {
     createOrUpdate = service.createOrUpdate,
     delete = service.delete,
     clock = clock
-  ))
+  )).renderIntoDOM(dom.document.getElementById("root"))
 }
