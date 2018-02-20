@@ -2,7 +2,7 @@
 
 @bundleUrl(projectName: String, js: String => Seq[String]) = @{
     val name = projectName.toLowerCase
-    js(name).find(name => getClass.getResource(s"/public/$name") != null).map(controllers.routes.Assets.versioned(_).url)
+    js(name).find(name => getClass.getResource("/public/" + name) != null).map(controllers.routes.Assets.versioned(_).url)
 }
 
 @bundleProject(projectName: String) = @{
