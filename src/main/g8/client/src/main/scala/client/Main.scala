@@ -33,7 +33,7 @@ object Main {
   private val clock: Clock = Clock.systemUTC()
 
   MainComponent(MainComponent.Props(
-    loadList = service.list,
+    loadList = () => service.list(),
     createOrUpdate = service.createOrUpdate,
     delete = service.delete,
     clock = clock

@@ -34,7 +34,7 @@ class ApplicationService {
     url = s"/api/todo/$todoId", headers = headers
   )).map(_.map(_ => ()))
 
-  def list: Future[ErrorOr[List[Todo]]] = raiseErrorFromFuture(Ajax.get(
+  def list(): Future[ErrorOr[List[Todo]]] = raiseErrorFromFuture(Ajax.get(
     url = "/api/todo", headers = headers
   )).map(_.flatMap(parseOutput[List[Todo]]))
 }
