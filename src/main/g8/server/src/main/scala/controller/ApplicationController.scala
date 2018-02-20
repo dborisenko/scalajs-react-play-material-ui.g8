@@ -1,5 +1,6 @@
 package controller
 
+import java.time.Clock
 import javax.inject.{ Inject, Singleton }
 
 import model.Todo
@@ -19,6 +20,16 @@ class ApplicationController @Inject() (
   private val logger: Logger = LoggerFactory.getLogger(getClass)
 
   private val todoStorage: TrieMap[TodoId, Todo] = new TrieMap[TodoId, Todo]()
+
+  private val clock = Clock.systemUTC()
+  Set(
+    Todo(TodoId.newTodoId, "Hit the gym", isCompleted = false, clock.instant()),
+    Todo(TodoId.newTodoId, "Pay bills", isCompleted = true, clock.instant()),
+    Todo(TodoId.newTodoId, "Meet George", isCompleted = false, clock.instant()),
+    Todo(TodoId.newTodoId, "Buy eggs", isCompleted = false, clock.instant()),
+    Todo(TodoId.newTodoId, "Read a book", isCompleted = false, clock.instant()),
+    Todo(TodoId.newTodoId, "Organize office", isCompleted = false, clock.instant())
+  ).foreach(v => todoStorage.put(v.id, v))
 
   val healthcheck = Action {
     Ok("Ok")

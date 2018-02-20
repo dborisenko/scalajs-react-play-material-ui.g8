@@ -3,10 +3,10 @@ package model
 import java.time.{ Clock, Instant }
 import java.util.UUID
 
-import Todo.TodoId
 import io.circe.generic.JsonCodec
-import io.circe.java8.time._
 import io.circe.{ Decoder, Encoder }
+import io.circe.java8.time._
+import model.Todo.TodoId
 import shapeless.tag
 import shapeless.tag.@@
 
@@ -19,6 +19,7 @@ final case class Todo(
 )
 
 object Todo {
+
   sealed trait TodoIdTag
   type TodoId = UUID @@ TodoIdTag
 
@@ -35,6 +36,6 @@ object Todo {
     id = TodoId.newTodoId,
     description = "",
     isCompleted = false,
-    createdAt = clock.instant()
+    createdAt = clock.instant
   )
 }
