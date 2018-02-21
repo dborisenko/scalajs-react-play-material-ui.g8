@@ -78,7 +78,7 @@ object MainComponent {
       wrapToListCall(props.loadList, "Deleted " + todoId)(props.delete(todoId))
 
     private def createOrUpdateServiceCall(props: Props)(todo: Todo): CallbackTo[Future[Unit]] =
-      wrapToListCall(props.loadList, "Created " + todo.id)(props.createOrUpdate(todo))
+      wrapToListCall(props.loadList, "Saved " + todo.id)(props.createOrUpdate(todo))
 
     private def renderSubComponent(snapshot: StateSnapshot[List[Todo]], props: Props): VdomElement =
       TodoListComponent(TodoListComponent.Props(
