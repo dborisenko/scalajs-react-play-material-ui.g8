@@ -55,7 +55,8 @@ lazy val client = (project in file("client"))
       Dependencies.`material-ui`,
       Dependencies.`react-tap-event-plugin`
     ),
-    emitSourceMaps := false
+    emitSourceMaps := false,
+    requiresDOM := true
   )
   .dependsOn(`shared-js`)
 
